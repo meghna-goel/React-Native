@@ -1,18 +1,27 @@
 import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 import Login from './component/Logme/Login'
-import Test from './component/Test'
-class App extends React.Component {
-	render() {
-		console.log('Meghna')
-		return (
-			<View>
-				<Text style={styles.text}>Hello world m</Text>
-				<Test />
-				<Login />
-			</View>
-		)
-	}
+import Music from './component/Music'
+import { Provider } from 'react-redux';
+import { NativeRouter, Route, Link, Switch } from "react-router-native";
+import store, { history } from './store/store';
+import { ConnectedRouter } from "connected-react-router";
+
+const App = () => {
+	return (
+	<Provider store={store}>
+			<NativeRouter>
+				<ConnectedRouter history={history}>
+				<Switch>
+				<View>
+				<Route exact path="/" component={Login} />
+				<Route exact path="/music" component={Music} />
+				</View>
+				</Switch>
+				</ConnectedRouter>
+			</NativeRouter>
+		</Provider>
+	)
 }
 
 const styles = StyleSheet.create({

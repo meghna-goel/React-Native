@@ -1,8 +1,9 @@
 import React, { useState, useEffect} from 'react';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native"
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Button } from "react-native";
+import { Link } from "react-router-native";
 
-function Login () {
+function Login (props) {
     const [loggedIn, setloggedIn] = useState(false);
     const [userInfo, setuserInfo] = useState([]);
 
@@ -16,17 +17,12 @@ function Login () {
       }, []);
     
       const _signIn = async () => {
-        console.log('enter')
         try {
-          console.log('enter 1')
           await GoogleSignin.hasPlayServices();
           const {accessToken, idToken} = await GoogleSignin.signIn();
-          setloggedIn(true);
-          console.log('done')
         } catch (error) {
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
             // user cancelled the login flow
-            console.log('cancel')
             alert('Cancel');
           } else if (error.code === statusCodes.IN_PROGRESS) {
             console.log('Signin in progress')
@@ -37,7 +33,7 @@ function Login () {
             alert('PLAY_SERVICES_NOT_AVAILABLE');
             // play services not available or outdated
           } else {
-            console.log('other', error)
+            setloggedIn(true);
             // some other error happened
           }
         }
@@ -54,6 +50,7 @@ function Login () {
       // };
       
       return (
+        
         <>
           {/* <StatusBar barStyle="dark-content" /> */}
           {/* <SafeAreaView> */}
@@ -81,10 +78,7 @@ function Login () {
                 >
                   {!loggedIn && <Text>You are currently logged out</Text>}
                   {loggedIn && (
-                    <Button
-                      onPress={this.signOut}
-                      title="LogOut"
-                      color="red"></Button>
+                   props.history.push('/music')
                   )}
                 </View>
               </View>
